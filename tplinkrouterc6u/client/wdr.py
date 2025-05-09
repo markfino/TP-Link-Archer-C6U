@@ -146,7 +146,7 @@ class WDRRequest:
         data: str,
         ignore_response: bool = False,
         ignore_errors: bool = False,
-    ) -> Union[str | dict]:
+    ) -> Union[str, dict]:
         if not self._headers_request:
             self._headers_request = defaultHeaders()
 

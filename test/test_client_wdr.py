@@ -123,7 +123,7 @@ class TplinkWDRRouterTest(TplinkWDRRouter):
         data: str,
         ignore_response: bool = False,
         ignore_errors: bool = False,
-    ) -> Union[str | dict]:
+    ) -> Union[str, dict]:
         # only a test, so no extra headers
         # Responses
         sections = "summary,status,"

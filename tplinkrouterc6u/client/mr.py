@@ -357,7 +357,7 @@ class TPLinkMRClientBase(AbstractRouter):
         return response, result.get('0') if len(result) == 1 and result.get('0') else result
 
     @staticmethod
-    def _to_list(response: Union[dict | list]) -> list:
+    def _to_list(response: Union[dict, list]) -> list:
         if response is None:
             return []
 
