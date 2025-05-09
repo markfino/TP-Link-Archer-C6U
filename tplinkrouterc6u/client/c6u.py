@@ -12,7 +12,7 @@ from tplinkrouterc6u.common.dataclass import Firmware, Status, Device, IPv4Reser
 from tplinkrouterc6u.common.exception import ClientException, ClientError
 from tplinkrouterc6u.client_abstract import AbstractRouter
 from abc import abstractmethod
-
+from typing import Optional
 
 class TplinkRequest:
     host = ''
@@ -26,7 +26,7 @@ class TplinkRequest:
     _headers_login = {}
     _data_block = 'data'
 
-    def request(self, path: str, data: str, ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+    def request(self, path: str, data: str, ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
         if self._logged is False:
             raise Exception('Not authorised')
         url = '{}/cgi-bin/luci/;stok={}/{}'.format(self.host, self._stok, path)
@@ -402,11 +402,11 @@ class TplinkBaseRouter(AbstractRouter, TplinkRequest):
         return dhcp_leases
 
     @staticmethod
-    def _str2bool(v) -> bool | None:
+    def _str2bool(v) -> Optional[bool]:
         return str(v).lower() in ("yes", "true", "on") if v is not None else None
 
     @staticmethod
-    def _map_wire_type(data: str | None, host: bool = True) -> Connection:
+    def _map_wire_type(data: Optional[str], host: bool = True) -> Connection:
         result = Connection.UNKNOWN
         if data is None:
             return result

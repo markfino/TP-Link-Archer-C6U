@@ -10,7 +10,7 @@ from tplinkrouterc6u.common.package_enum import Connection
 from tplinkrouterc6u.common.dataclass import Firmware, Status, Device, IPv4Status
 from tplinkrouterc6u.client_abstract import AbstractRouter
 from tplinkrouterc6u.client.c6u import TplinkEncryption
-
+from typing import Optional
 
 class TPLinkDecoClient(TplinkEncryption, AbstractRouter):
     def __init__(self, host: str, password: str, username: str = 'admin', logger: Logger = None,
@@ -154,7 +154,7 @@ class TPLinkDecoClient(TplinkEncryption, AbstractRouter):
     def authorize(self) -> None:
         self._retry_request(super().authorize)
 
-    def request(self, path: str, data: str, ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+    def request(self, path: str, data: str, ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
         return self._retry_request(super().request, path, data, ignore_response, ignore_errors)
 
     def _retry_request(self, callback: Callable, *args):

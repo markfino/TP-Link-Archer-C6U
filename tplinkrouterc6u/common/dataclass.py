@@ -3,7 +3,7 @@ from ipaddress import IPv4Address
 from dataclasses import dataclass
 from datetime import datetime
 from tplinkrouterc6u.common.package_enum import Connection
-
+from typing import Optional
 
 @dataclass
 class Firmware:
@@ -20,11 +20,11 @@ class Device:
         self._macaddr = macaddr
         self._ipaddr = ipaddr
         self.hostname = hostname
-        self.packets_sent: int | None = None
-        self.packets_received: int | None = None
-        self.down_speed: int | None = None
-        self.up_speed: int | None = None
-        self.signal: int | None = None
+        self.packets_sent: Optional[int] = None
+        self.packets_received: Optional[int] = None
+        self.down_speed: Optional[int] = None
+        self.up_speed: Optional[int] = None
+        self.signal: Optional[int] = None
         self.active: bool = True
 
     @property
@@ -47,37 +47,37 @@ class Device:
 @dataclass
 class Status:
     def __init__(self) -> None:
-        self._wan_macaddr: EUI48 | None = None
+        self._wan_macaddr: Optional[EUI48] = None
         self._lan_macaddr: EUI48
-        self._wan_ipv4_addr: IPv4Address | None = None
-        self._lan_ipv4_addr: IPv4Address | None = None
-        self._wan_ipv4_gateway: IPv4Address | None = None
+        self._wan_ipv4_addr: Optional[IPv4Address] = None
+        self._lan_ipv4_addr: Optional[IPv4Address] = None
+        self._wan_ipv4_gateway: Optional[IPv4Address] = None
         self.wired_total: int = 0
         self.wifi_clients_total: int = 0
         self.guest_clients_total: int = 0
-        self.iot_clients_total: int | None = None
+        self.iot_clients_total: Optional[int] = None
         self.clients_total: int = 0
         self.guest_2g_enable: bool
-        self.guest_5g_enable: bool | None = None
-        self.guest_6g_enable: bool | None = None
-        self.iot_2g_enable: bool | None = None
-        self.iot_5g_enable: bool | None = None
-        self.iot_6g_enable: bool | None = None
+        self.guest_5g_enable: Optional[bool] = None
+        self.guest_6g_enable: Optional[bool] = None
+        self.iot_2g_enable: Optional[bool] = None
+        self.iot_5g_enable: Optional[bool] = None
+        self.iot_6g_enable: Optional[bool] = None
         self.wifi_2g_enable: bool
-        self.wifi_5g_enable: bool | None = None
-        self.wifi_6g_enable: bool | None = None
-        self.wan_ipv4_uptime: int | None = None
-        self.mem_usage: float | None = None
-        self.cpu_usage: float | None = None
-        self.conn_type: str | None = None
+        self.wifi_5g_enable: Optional[bool] = None
+        self.wifi_6g_enable: Optional[bool] = None
+        self.wan_ipv4_uptime: Optional[int] = None
+        self.mem_usage: Optional[float] = None
+        self.cpu_usage: Optional[float] = None
+        self.conn_type: Optional[str] = None
         self.devices: list[Device] = []
 
     @property
-    def wan_macaddr(self) -> str | None:
+    def wan_macaddr(self) -> Optional[str]:
         return str(self._wan_macaddr) if self._wan_macaddr else None
 
     @property
-    def wan_macaddress(self) -> EUI48 | None:
+    def wan_macaddress(self) -> Optional[EUI48]:
         return self._wan_macaddr
 
     @property
@@ -89,27 +89,27 @@ class Status:
         return self._lan_macaddr
 
     @property
-    def wan_ipv4_addr(self) -> str | None:
+    def wan_ipv4_addr(self) -> Optional[str]:
         return str(self._wan_ipv4_addr) if self._wan_ipv4_addr else None
 
     @property
-    def wan_ipv4_address(self) -> IPv4Address | None:
+    def wan_ipv4_address(self) -> Optional[IPv4Address]:
         return self._wan_ipv4_addr
 
     @property
-    def lan_ipv4_addr(self) -> str | None:
+    def lan_ipv4_addr(self) -> Optional[str]:
         return str(self._lan_ipv4_addr) if self._lan_ipv4_addr else None
 
     @property
-    def lan_ipv4_address(self) -> IPv4Address | None:
+    def lan_ipv4_address(self) -> Optional[IPv4Address]:
         return self._lan_ipv4_addr
 
     @property
-    def wan_ipv4_gateway(self) -> str | None:
+    def wan_ipv4_gateway(self) -> Optional[str]:
         return str(self._wan_ipv4_gateway) if self._wan_ipv4_gateway else None
 
     @property
-    def wan_ipv4_gateway_address(self) -> IPv4Address | None:
+    def wan_ipv4_gateway_address(self) -> Optional[IPv4Address]:
         return self._wan_ipv4_gateway
 
 
@@ -167,17 +167,17 @@ class IPv4DHCPLease:
 class IPv4Status:
     def __init__(self) -> None:
         self._wan_macaddr: EUI48
-        self._wan_ipv4_ipaddr: IPv4Address | None = None
-        self._wan_ipv4_gateway: IPv4Address | None = None
+        self._wan_ipv4_ipaddr: Optional[IPv4Address] = None
+        self._wan_ipv4_gateway: Optional[IPv4Address] = None
         self._wan_ipv4_conntype: str
-        self._wan_ipv4_netmask: IPv4Address | None = None
+        self._wan_ipv4_netmask: Optional[IPv4Address] = None
         self._wan_ipv4_pridns: IPv4Address
         self._wan_ipv4_snddns: IPv4Address
         self._lan_macaddr: EUI48
         self._lan_ipv4_ipaddr: IPv4Address
         self.lan_ipv4_dhcp_enable: bool
         self._lan_ipv4_netmask: IPv4Address
-        self.remote: bool | None = None
+        self.remote: Optional[bool] = None
 
     @property
     def wan_macaddr(self):

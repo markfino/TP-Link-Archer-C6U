@@ -10,6 +10,7 @@ from tplinkrouterc6u import (
     Device,
     ClientException,
 )
+from typing import Optional
 
 
 class TestTPLinkClient(TestCase):
@@ -212,7 +213,7 @@ class TestTPLinkClient(TestCase):
 
         class TPLinkRouterTest(TplinkRouter):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/status?form=all&operation=read':
                     return loads(response_status)['data']
                 elif path == 'admin/wireless?form=statistics':
@@ -340,7 +341,7 @@ class TestTPLinkClient(TestCase):
 
         class TPLinkRouterTest(TplinkRouter):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/status?form=all&operation=read':
                     return loads(response_status)['data']
                 elif path == 'admin/wireless?form=statistics':
@@ -485,7 +486,7 @@ class TestTPLinkClient(TestCase):
 
         class TPLinkRouterTest(TplinkRouter):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/status?form=all&operation=read':
                     return loads(response_status)['data']
                 elif path == 'admin/smart_network?form=game_accelerator':
@@ -619,7 +620,7 @@ class TestTPLinkClient(TestCase):
 
         class TPLinkRouterTest(TplinkRouter):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/status?form=all&operation=read':
                     return loads(response_status)['data']
                 elif path == 'admin/status?form=perf&operation=read':
@@ -663,7 +664,7 @@ class TestTPLinkClient(TestCase):
 
         class TPLinkRouterTest(TplinkRouter):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 nonlocal check_url, check_data
                 check_url = path
                 check_data = data
@@ -707,7 +708,7 @@ class TestTPLinkClient(TestCase):
 
         class TPLinkRouterTest(TplinkRouter):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/network?form=status_ipv4&operation=read':
                     return loads(response_network)['result']
                 raise ClientException()
@@ -752,7 +753,7 @@ class TestTPLinkClient(TestCase):
 
         class TPLinkRouterTest(TplinkRouter):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/status?form=all&operation=read':
                     return loads(response_status)['data']
                 elif path == 'admin/wireless?form=statistics':

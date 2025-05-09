@@ -1,5 +1,5 @@
 from enum import Enum
-
+from typing import Optional
 
 class Connection(Enum):
     HOST_2G = 'host_2g'
@@ -23,7 +23,7 @@ class Connection(Enum):
     def is_iot(self) -> bool:
         return self in [Connection.IOT_2G, Connection.IOT_5G, Connection.IOT_6G]
 
-    def get_band(self) -> str | None:
+    def get_band(self) -> Optional[str]:
         band = None
         if self in [Connection.HOST_2G, Connection.GUEST_2G, Connection.IOT_2G]:
             band = '2G'
@@ -33,7 +33,7 @@ class Connection(Enum):
             band = '6G'
         return band
 
-    def get_type(self) -> str | None:
+    def get_type(self) -> Optional[str]:
         band = None
         if self.is_host_wifi():
             band = 'host'

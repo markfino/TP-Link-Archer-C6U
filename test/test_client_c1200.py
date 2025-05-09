@@ -6,7 +6,7 @@ from tplinkrouterc6u import (
     ClientException,
 )
 from tplinkrouterc6u.common.package_enum import VPN
-
+from typing import Optional
 
 class TestTPLinkC1200Client(TestCase):
     def test_set_led_on(self) -> None:
@@ -33,7 +33,7 @@ class TestTPLinkC1200Client(TestCase):
                 data: str,
                 ignore_response: bool = False,
                 ignore_errors: bool = False,
-            ) -> dict | None:
+            ) -> Optional[dict]:
                 if path == "admin/ledgeneral?form=setting&operation=read":
                     return loads(response_led_general_read)
                 if path == "admin/ledgeneral?form=setting&operation=write":
@@ -73,7 +73,7 @@ class TestTPLinkC1200Client(TestCase):
                 data: str,
                 ignore_response: bool = False,
                 ignore_errors: bool = False,
-            ) -> dict | None:
+            ) -> Optional[dict]:
                 if path == "admin/ledgeneral?form=setting&operation=read":
                     return loads(response_led_general_read)
                 if path == "admin/ledgeneral?form=setting&operation=write":
@@ -105,7 +105,7 @@ class TestTPLinkC1200Client(TestCase):
                 data: str,
                 ignore_response: bool = False,
                 ignore_errors: bool = False,
-            ) -> dict | None:
+            ) -> Optional[dict]:
                 if path == "admin/ledgeneral?form=setting&operation=read":
                     return loads(response_led_general_read)
                 raise ClientException()
@@ -123,7 +123,7 @@ class TestTPLinkC1200Client(TestCase):
                 data: str,
                 ignore_response: bool = False,
                 ignore_errors: bool = False,
-            ) -> dict | None:
+            ) -> Optional[dict]:
                 self.captured_path = path
                 self.captured_data = data
 
@@ -200,7 +200,7 @@ class TestTPLinkC1200Client(TestCase):
                 data: str,
                 ignore_response: bool = False,
                 ignore_errors: bool = False,
-            ) -> dict | None:
+            ) -> Optional[dict]:
                 if path == "/admin/openvpn?form=config&operation=read":
                     return loads(response_openvpn_read)
                 if path == "/admin/pptpd?form=config&operation=read":
@@ -239,7 +239,7 @@ class TestTPLinkC1200Client(TestCase):
                 data: str,
                 ignore_response: bool = False,
                 ignore_errors: bool = False,
-            ) -> dict | None:
+            ) -> Optional[dict]:
                 if path == "/admin/openvpn?form=config&operation=read":
                     return loads(response_openvpn_read)
                 self.captured_path = path

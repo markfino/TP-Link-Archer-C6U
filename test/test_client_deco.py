@@ -10,7 +10,7 @@ from tplinkrouterc6u import (
     Device,
     IPv4Status,
 )
-
+from typing import Optional
 
 class TestTPLinkDecoClient(TestCase):
 
@@ -79,7 +79,7 @@ class TestTPLinkDecoClient(TestCase):
 
         class TPLinkRouterTest(TPLinkDecoClient):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/network?form=wan_ipv4':
                     return loads(response_network)['result']
                 elif path == 'admin/network?form=performance':
@@ -214,7 +214,7 @@ class TestTPLinkDecoClient(TestCase):
 
         class TPLinkRouterTest(TPLinkDecoClient):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/network?form=wan_ipv4':
                     return loads(response_network)['result']
                 elif path == 'admin/network?form=performance':
@@ -295,7 +295,7 @@ class TestTPLinkDecoClient(TestCase):
 
         class TPLinkRouterTest(TPLinkDecoClient):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/network?form=wan_ipv4':
                     return loads(response_network)['result']
                 elif path == 'admin/network?form=performance':
@@ -344,7 +344,7 @@ class TestTPLinkDecoClient(TestCase):
 
         class TPLinkRouterTest(TPLinkDecoClient):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/network?form=wan_ipv4':
                     return loads(response_network)['result']
 
@@ -370,7 +370,7 @@ class TestTPLinkDecoClient(TestCase):
 
         class TPLinkRouterTest(TPLinkDecoClient):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/network?form=wan_ipv4':
                     return loads(response_network)['result']
 
@@ -409,7 +409,7 @@ class TestTPLinkDecoClient(TestCase):
 
         class TPLinkRouterTest(TPLinkDecoClient):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/network?form=wan_ipv4':
                     return loads(response_network)['result']
 
@@ -446,7 +446,7 @@ class TestTPLinkDecoClient(TestCase):
 
         class TPLinkRouterTest(TPLinkDecoClient):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/device?form=device_list':
                     return response_firmware['result']
 
@@ -482,7 +482,7 @@ class TestTPLinkDecoClient(TestCase):
 
         class TPLinkRouterTest(TPLinkDecoClient):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/device?form=device_list':
                     return response_firmware['result']
 
@@ -501,7 +501,7 @@ class TestTPLinkDecoClient(TestCase):
 
         class TPLinkRouterTest(TPLinkDecoClient):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 nonlocal check_url, check_data
                 check_url = path
                 check_data = data
@@ -530,7 +530,7 @@ class TestTPLinkDecoClient(TestCase):
 
         class TPLinkRouterTest(TPLinkDecoClient):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 nonlocal check_url, check_data
                 check_url = path
                 check_data = data
@@ -562,7 +562,7 @@ class TestTPLinkDecoClient(TestCase):
 
         class TPLinkRouterTest(TPLinkDecoClient):
             def request(self, path: str, data: str,
-                        ignore_response: bool = False, ignore_errors: bool = False) -> dict | None:
+                        ignore_response: bool = False, ignore_errors: bool = False) -> Optional[dict]:
                 if path == 'admin/device?form=device_list':
                     return response_firmware['result']
                 nonlocal check_url, check_data

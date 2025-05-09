@@ -18,6 +18,7 @@ from tplinkrouterc6u.client_abstract import AbstractRouter
 
 from dataclasses import dataclass
 from html.parser import HTMLParser
+from typing import Optional
 
 dataUrls = {
     "check": "/StatusRpm.htm",
@@ -145,7 +146,7 @@ class WDRRequest:
         data: str,
         ignore_response: bool = False,
         ignore_errors: bool = False,
-    ) -> str | dict | None:
+    ) -> Optional[str | dict]:
         if not self._headers_request:
             self._headers_request = defaultHeaders()
 

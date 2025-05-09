@@ -5,7 +5,7 @@ from tplinkrouterc6u.common.dataclass import Firmware, Status, Device
 from tplinkrouterc6u.common.dataclass import IPv4Status, IPv4Reservation, IPv4DHCPLease, VPNStatus
 from tplinkrouterc6u import Connection, ClientException
 from tplinkrouterc6u.client.c80 import TplinkC80Router
-
+from typing import Optional
 
 IPV4_STATUS_RESPONSE = ('00000\r\nid 1|1,0,0\r\nauthKey token\r\nreserved\r\nsetWzd 8\r\nmode 1\r\nlogLevel 3\r\n'
                         'fastpath 1\r\nmac 0 00-00-00-00-00-00\r\nmac 1 00-00-00-00-00-01\r\nwanMacType 0\r\n'
@@ -272,7 +272,7 @@ class ResponseMock():
 class TplinkC80RouterTest(TplinkC80Router):
     response = ''
 
-    def request(self, code: int, asyn: int, use_token: bool = False, data: str = None) -> dict | None:
+    def request(self, code: int, asyn: int, use_token: bool = False, data: str = None) -> Optional[dict]:
 
         # Responses
         if code == 2 and asyn == 1:
