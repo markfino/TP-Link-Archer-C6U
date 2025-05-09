@@ -5,7 +5,7 @@ from tplinkrouterc6u.common.dataclass import Firmware, Status
 from tplinkrouterc6u.common.dataclass import IPv4Status, IPv4Reservation, IPv4DHCPLease
 from tplinkrouterc6u import ClientError
 from tplinkrouterc6u.client.wdr import TplinkWDRRouter
-from typing import Optional
+from typing import Union
 
 _NETWAN = (
     '<SCRIPT language="javascript" type="text/javascript">\nvar wanTypeDetectInfoArray = '
@@ -123,7 +123,7 @@ class TplinkWDRRouterTest(TplinkWDRRouter):
         data: str,
         ignore_response: bool = False,
         ignore_errors: bool = False,
-    ) -> Optional[str | dict]:
+    ) -> Union[str | dict]:
         # only a test, so no extra headers
         # Responses
         sections = "summary,status,"

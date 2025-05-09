@@ -23,7 +23,7 @@ from tplinkrouterc6u.common.dataclass import (
 )
 from tplinkrouterc6u.common.exception import ClientException, ClientError
 from tplinkrouterc6u.client_abstract import AbstractRouter
-from typing import Optional
+from typing import Union
 
 class TPLinkMRClientBase(AbstractRouter):
     REQUEST_RETRIES = 3
@@ -357,7 +357,7 @@ class TPLinkMRClientBase(AbstractRouter):
         return response, result.get('0') if len(result) == 1 and result.get('0') else result
 
     @staticmethod
-    def _to_list(response: Optional[dict | list]) -> list:
+    def _to_list(response: Union[dict | list]) -> list:
         if response is None:
             return []
 
