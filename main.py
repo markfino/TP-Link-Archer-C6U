@@ -13,8 +13,12 @@ from tplinkrouterc6u import (
     Connection
 )
 from logging import Logger
+from dotenv import load_dotenv
+import os
 
-router = TplinkRouterProvider.get_client('<routeraddress>', '<routerpassword>')
+load_dotenv()
+
+router = TplinkRouterProvider.get_client(os.getenv("ROUTER_URL", ""), os.getenv("ROUTER_PWD", ""))
 
 try:
     router.authorize()  # authorizing
@@ -26,7 +30,7 @@ try:
 
     # Get status info - returns Status
     status = router.get_status()
-    print(status)
+    print("Clients:", status.clients_total)
 
     # Get Address reservations, sort by ipaddr
     reservations = router.get_ipv4_reservations()
