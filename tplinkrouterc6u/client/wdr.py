@@ -18,7 +18,7 @@ from tplinkrouterc6u.client_abstract import AbstractRouter
 
 from dataclasses import dataclass
 from html.parser import HTMLParser
-from typing import Union
+from typing import Union, List
 
 dataUrls = {
     "check": "/StatusRpm.htm",
@@ -83,12 +83,12 @@ class NetInfo:
         self.wlan24Gcfg = {}
         self.wlan24Gsec = {}
         self.wlan24Gadv = {}
-        self.wlan24Gcli: list[Device] = []
+        self.wlan24Gcli: List[Device] = []
 
         self.wlan50Gcfg = {}
         self.wlan50Gsec = {}
         self.wlan50Gadv = {}
-        self.wlan50Gcli: list[Device] = []
+        self.wlan50Gcli: List[Device] = []
 
         self.guest24Gcfg = {}
         self.guest50Gcfg = {}
@@ -222,9 +222,9 @@ class TplinkWDRRouter(AbstractRouter, WDRRequest):
         self.hostname = ""
         self.ipv4status: IPv4Status = IPv4Status()
         self.network: NetInfo = NetInfo()
-        self.ipv4Reserves: list[IPv4Reservation] = []
-        self.dhcpLeases: list[IPv4DHCPLease] = []
-        self.connDevices: list[Device] = []
+        self.ipv4Reserves: List[IPv4Reservation] = []
+        self.dhcpLeases: List[IPv4DHCPLease] = []
+        self.connDevices: List[Device] = []
 
     # N/A. WDR family has no session support , so no "logged" state
     def authorize(self) -> None:
@@ -342,7 +342,7 @@ class TplinkWDRRouter(AbstractRouter, WDRRequest):
 
         self.status.wifi_clients_total = len(isWireless)
 
-        connected: list[IPv4DHCPLease] = self.dhcpLeases
+        connected: List[IPv4DHCPLease] = self.dhcpLeases
         client: IPv4DHCPLease = {}
 
         wired_speed = 1 * 1024 * 1024 * 1024

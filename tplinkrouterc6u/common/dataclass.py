@@ -3,7 +3,7 @@ from ipaddress import IPv4Address
 from dataclasses import dataclass
 from datetime import datetime
 from tplinkrouterc6u.common.package_enum import Connection
-from typing import Optional
+from typing import Optional, List
 
 @dataclass
 class Firmware:
@@ -70,7 +70,7 @@ class Status:
         self.mem_usage: Optional[float] = None
         self.cpu_usage: Optional[float] = None
         self.conn_type: Optional[str] = None
-        self.devices: list[Device] = []
+        self.devices: List[Device] = []
 
     @property
     def wan_macaddr(self) -> Optional[str]:

@@ -16,7 +16,7 @@ from tplinkrouterc6u.common.encryption import EncryptionWrapper
 from tplinkrouterc6u.common.dataclass import Firmware, Status, IPv4Status, IPv4Reservation
 from tplinkrouterc6u.common.dataclass import IPv4DHCPLease, Device, VPNStatus
 from tplinkrouterc6u.client_abstract import AbstractRouter
-
+from typing import List
 
 class RouterConstants:
     AUTH_TOKEN_INDEX1 = 3
@@ -260,7 +260,7 @@ class TplinkC80Router(AbstractRouter):
         ipv4status._lan_ipv4_netmask = IPv4Address(network_info['lan_mask'])
         return ipv4status
 
-    def get_ipv4_reservations(self) -> list[IPv4Reservation]:
+    def get_ipv4_reservations(self) -> List[IPv4Reservation]:
         body = self._encrypt_body('12|1,0,0')
 
         response = self.request(2, 1, True, data=body)
@@ -270,14 +270,14 @@ class TplinkC80Router(AbstractRouter):
         data_blocks = {match[0]: match[1].strip().split("\r\n") for match in matches}
         filtered_reservations = self._parse_response_to_dict(data_blocks['12|1,0,0'])
 
-        mapped_reservations: list[IPv4Reservation] = []
+        mapped_reservations: List[IPv4Reservation] = []
         for reservation in filtered_reservations:
             reservation_to_add = IPv4Reservation(EUI48(reservation['mac']), IPv4Address(reservation['ip']),
                                                  reservation['name'], reservation['dhcpsEnable'] == '1')
             mapped_reservations.append(reservation_to_add)
         return mapped_reservations
 
-    def get_dhcp_leases(self) -> list[IPv4DHCPLease]:
+    def get_dhcp_leases(self) -> List[IPv4DHCPLease]:
         body = self._encrypt_body('9|1,0,0')
 
         response = self.request(2, 1, True, data=body)
@@ -288,7 +288,7 @@ class TplinkC80Router(AbstractRouter):
 
         filtered_leases = self._parse_response_to_dict(data_blocks['9|1,0,0'])
 
-        mapped_leases: list[IPv4DHCPLease] = []
+        mapped_leases: List[IPv4DHCPLease] = []
         for lease in filtered_leases:
             lease_to_add = IPv4DHCPLease(EUI48(lease['mac']), IPv4Address(lease['ip']),
                                          lease['hostName'], f'expires {lease["expires"]}')
@@ -310,7 +310,7 @@ class TplinkC80Router(AbstractRouter):
 
         return vpn_status
 
-    def _parse_devices(self, device_data_response: list[str]) -> list[Device]:
+    def _parse_devices(self, device_data_response: List[str]) -> List[Device]:
         filtered_devices = self._parse_response_to_dict(device_data_response)
 
         device_type_to_connection = {
@@ -335,7 +335,7 @@ class TplinkC80Router(AbstractRouter):
             mapped_devices.append(device_to_add)
         return mapped_devices
 
-    def _parse_response_to_dict(self, response_data: list[str]) -> list[dict]:
+    def _parse_response_to_dict(self, response_data: List[str]) -> List[dict]:
         result_dict = defaultdict(dict)
         for entry in response_data:
             parts = entry.split(' ', 2)

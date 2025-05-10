@@ -23,7 +23,7 @@ from tplinkrouterc6u.common.dataclass import (
 )
 from tplinkrouterc6u.common.exception import ClientException, ClientError
 from tplinkrouterc6u.client_abstract import AbstractRouter
-from typing import Union
+from typing import Union, Tuple
 
 class TPLinkMRClientBase(AbstractRouter):
     REQUEST_RETRIES = 3
@@ -575,7 +575,7 @@ class TPLinkMRClientBase(AbstractRouter):
 
         return int(result.group(1))
 
-    def _prepare_data(self, data: str, is_login: bool) -> tuple[str, str]:
+    def _prepare_data(self, data: str, is_login: bool) -> Tuple[str, str]:
         encrypted_data = self._encryption.aes_encrypt(data)
         data_len = len(encrypted_data)
         # get encrypted signature

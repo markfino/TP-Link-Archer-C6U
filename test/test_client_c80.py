@@ -5,7 +5,7 @@ from tplinkrouterc6u.common.dataclass import Firmware, Status, Device
 from tplinkrouterc6u.common.dataclass import IPv4Status, IPv4Reservation, IPv4DHCPLease, VPNStatus
 from tplinkrouterc6u import Connection, ClientException
 from tplinkrouterc6u.client.c80 import TplinkC80Router
-from typing import Optional
+from typing import Optional, List
 
 IPV4_STATUS_RESPONSE = ('00000\r\nid 1|1,0,0\r\nauthKey token\r\nreserved\r\nsetWzd 8\r\nmode 1\r\nlogLevel 3\r\n'
                         'fastpath 1\r\nmac 0 00-00-00-00-00-00\r\nmac 1 00-00-00-00-00-01\r\nwanMacType 0\r\n'
@@ -379,7 +379,7 @@ class TestTPLinkClient(TestCase):
 
         client.set_encrypted_response(response)
 
-        ipv4_reservations: list[IPv4Reservation] = client.get_ipv4_reservations()
+        ipv4_reservations: List[IPv4Reservation] = client.get_ipv4_reservations()
         ipv4_reservation: IPv4Reservation = ipv4_reservations[0]
 
         self.assertIsInstance(ipv4_reservation, IPv4Reservation)
@@ -401,7 +401,7 @@ class TestTPLinkClient(TestCase):
 
         client.set_encrypted_response(response)
 
-        dhcp_leases: list[IPv4DHCPLease] = client.get_dhcp_leases()
+        dhcp_leases: List[IPv4DHCPLease] = client.get_dhcp_leases()
 
         self.assertIsInstance(dhcp_leases[0], IPv4DHCPLease)
         self.assertEqual(dhcp_leases[0].macaddress, EUI48('00-00-00-00-00-00'))

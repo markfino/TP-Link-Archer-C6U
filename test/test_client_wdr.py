@@ -5,7 +5,7 @@ from tplinkrouterc6u.common.dataclass import Firmware, Status
 from tplinkrouterc6u.common.dataclass import IPv4Status, IPv4Reservation, IPv4DHCPLease
 from tplinkrouterc6u import ClientError
 from tplinkrouterc6u.client.wdr import TplinkWDRRouter
-from typing import Union
+from typing import Union, List
 
 _NETWAN = (
     '<SCRIPT language="javascript" type="text/javascript">\nvar wanTypeDetectInfoArray = '
@@ -236,7 +236,7 @@ class TestTPLinkWDRClient(TestCase):
 
     def test_get_ipv4_reservations(self) -> None:
         client = TplinkWDRRouterTest("", "")
-        ipv4_reservations: list[IPv4Reservation] = client.get_ipv4_reservations()
+        ipv4_reservations: List[IPv4Reservation] = client.get_ipv4_reservations()
         fRes: IPv4Reservation = ipv4_reservations[0]
 
         self.assertIsInstance(fRes, IPv4Reservation)
@@ -246,7 +246,7 @@ class TestTPLinkWDRClient(TestCase):
 
     def test_get_ipv4_dhcp_leases(self) -> None:
         client = TplinkWDRRouterTest("", "")
-        dhcp_leases: list[IPv4DHCPLease] = client.get_ipv4_dhcp_leases()
+        dhcp_leases: List[IPv4DHCPLease] = client.get_ipv4_dhcp_leases()
 
         self.assertIsInstance(dhcp_leases[0], IPv4DHCPLease)
         self.assertEqual(dhcp_leases[0].macaddress, EUI48("A9-A8-2B-F7-9F-5D"))
