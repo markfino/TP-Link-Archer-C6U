@@ -18,7 +18,7 @@ import os
 from pathlib import Path
 from typing import List
 
-def sync_acl_access(entries: List[ACLEntry], enable: bool) -> bool:
+def sync_acl_access(entries: List[ACLEntry], action: str) -> bool:
 
     print("Establishing router connection...")
     router = TplinkRouterProvider.get_client(os.getenv("ROUTER_URL", ""), os.getenv("ROUTER_PWD", ""))
@@ -26,6 +26,9 @@ def sync_acl_access(entries: List[ACLEntry], enable: bool) -> bool:
     try:
         print("Authorizing...")
         router.authorize()  # authorizing
+
+        print("Checking entries")
+        print(entries)
 
         existing_entries = router.get_acl()
         for entry in entries:
@@ -40,11 +43,11 @@ def sync_acl_access(entries: List[ACLEntry], enable: bool) -> bool:
             if not found:
                 print("Entry does not exist")
             
-            if enable and not found:
+            if action == "enable" and not found:
                 print("Inserting entry...", end="")
                 success = router.set_acl(entry.name, entry.mac, True)
                 print("done." if success else "failed!")
-            elif not enable and found:
+            elif action == "disable" and found:
                 print("Removing entry")
                 success = router.set_acl(entry.name, entry.mac, False)
                 print("done." if success else "failed!")

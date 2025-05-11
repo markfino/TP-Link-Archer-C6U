@@ -14,6 +14,7 @@ def print_usage():
                     "  Options:\n"
                     "  --enabe, -e     Enable ACL mac addresses\n"
                     "  --disable, -d   Disable ACL mac addresses\n"
+                    "  --list, -l      List ACL mac addresses\n"
                 )
     print(usage_doc)
 
@@ -21,11 +22,13 @@ def print_usage():
 def main():
     args = sys.argv[1:]
 
-    enable: bool
+    action = ""
     if '--enable' in args or '-e' in args:
-        enable = True
+        action = "enable"
     elif '--disable' in args or '-d' in args:
-        enable = False
+        action = "disable"
+    elif '--list' in args or '-l' in args:
+        action = "list"
     else:
         print_usage()
         exit()
@@ -43,9 +46,8 @@ def main():
                     ACLEntry(acl_entry['name'], acl_entry['mac'])
                 )
 
-            action = "enabled" if enable else "disabled"
-            print(f"Syncing ACL mac addresses to be {action}...")
-            sync_acl_access(entries, enable)
+            print(f"Syncing ACL mac addresses for action: {action}")
+            sync_acl_access(entries, action)
             print("Syncing completed successfully.")
             
         except yaml.YAMLError as ex:
