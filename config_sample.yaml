@@ -1,0 +1,5 @@
+acl_entries:
+  - name: test_api
+    mac: AA-BB-CC-11-22-33
+  - name: test api 2
+    mac: CC-DD-EE-11-22-33

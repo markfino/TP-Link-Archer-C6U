@@ -50,3 +50,9 @@ class AbstractRouter(ABC):
     @abstractmethod
     def set_wifi(self, wifi: Connection, enable: bool) -> None:
         pass
+
+    def get_acl(self):
+        pass
+
+    def set_acl(self, name: str, mac: str, enable: bool) -> bool:
+        pass

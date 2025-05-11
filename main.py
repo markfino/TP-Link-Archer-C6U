@@ -1,47 +1,56 @@
-from tplinkrouterc6u import (
-    TplinkRouterProvider,
-    TplinkRouter,
-    TplinkC1200Router,
-    TplinkC5400XRouter,
-    TPLinkMRClient,
-    TPLinkVRClient,
-    TPLinkEXClient,
-    TPLinkXDRClient,
-    TPLinkDecoClient,
-    TplinkC80Router,
-    TplinkWDRRouter,
-    Connection
-)
-from logging import Logger
 from dotenv import load_dotenv
-import os
+import yaml
+import sys
+from typing import List
+
+from models.acl_entry import ACLEntry
+from router import sync_acl_access
 
 load_dotenv()
 
-router = TplinkRouterProvider.get_client(os.getenv("ROUTER_URL", ""), os.getenv("ROUTER_PWD", ""))
+def print_usage():
+    usage_doc = (   "Usage: py main.py [OPTION]\n"
+                    "\n"
+                    "  Options:\n"
+                    "  --enabe, -e     Enable ACL mac addresses\n"
+                    "  --disable, -d   Disable ACL mac addresses\n"
+                )
+    print(usage_doc)
 
-try:
-    router.authorize()  # authorizing
 
-    print(router.__class__)
-    # Get firmware info - returns Firmware
-    firmware = router.get_firmware()
-    print(firmware.firmware_version)
+def main():
+    args = sys.argv[1:]
 
-    # Get status info - returns Status
-    status = router.get_status()
-    print("Clients:", status.clients_total)
+    enable: bool
+    if '--enable' in args or '-e' in args:
+        enable = True
+    elif '--disable' in args or '-d' in args:
+        enable = False
+    else:
+        print_usage()
+        exit()
 
-    # Get Address reservations, sort by ipaddr
-    reservations = router.get_ipv4_reservations()
-    reservations.sort(key=lambda a: a.ipaddr)
-    for res in reservations:
-        print(f"{res.macaddr} {res.ipaddr:16s} {res.hostname:36} {'Permanent':12}")
+    with open("./config.yaml") as stream:
+        try:
 
-    # # Get DHCP leases, sort by ipaddr
-    leases = router.get_ipv4_dhcp_leases()
-    leases.sort(key=lambda a: a.ipaddr)
-    for lease in leases:
-        print(f"{lease.macaddr} {lease.ipaddr:16s} {lease.hostname:36} {lease.lease_time:12}")
-finally:
-    router.logout()  # always logout as TP-Link Web Interface only supports upto 1 user logged
+            config = yaml.safe_load(stream)
+
+            # load typed ACL entries
+            acl_entries = config['acl_entries']
+            entries: List[ACLEntry] = []
+            for acl_entry in acl_entries:
+                entries.append(
+                    ACLEntry(acl_entry['name'], acl_entry['mac'])
+                )
+
+            action = "enabled" if enable else "disabled"
+            print(f"Syncing ACL mac addresses to be {action}...")
+            sync_acl_access(entries, enable)
+            print("Syncing completed successfully.")
+            
+        except yaml.YAMLError as ex:
+            print(ex)
+
+
+if __name__ == '__main__':
+    main()

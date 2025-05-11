@@ -21,3 +21,4 @@ mac_lookup.txt
 *.zip
 
 venv*/*
+config.yaml
