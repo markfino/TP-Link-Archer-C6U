@@ -54,5 +54,5 @@ class AbstractRouter(ABC):
     def get_acl(self):
         pass
 
-    def set_acl(self, name: str, mac: str, enable: bool) -> bool:
+    def set_acl(self, name: str, mac: str, index: int, enable: bool) -> bool:
         pass

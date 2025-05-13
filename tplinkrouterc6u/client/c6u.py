@@ -431,7 +431,7 @@ class TplinkBaseRouter(AbstractRouter, TplinkRequest):
     def get_acl(self):
         return self.request("admin/access_control?form=white_list", 'operation=load')
     
-    def set_acl(self, name: str, mac: str, enable: bool) -> bool:
+    def set_acl(self, name: str, mac: str, index: int, enable: bool) -> bool:
         # Command to generate output
         # $.param({operation: 'insert', key: 'add', old: 'add', index: 0, new: JSON.stringify({ name: 'api_test', mac: 'aa-bb-cc-11-22-33'})})
         # output: 'operation=insert&key=add&old=add&index=0&new=%7B%22name%22%3A%22api_test%22%2C%22mac%22%3A%22aa-bb-cc-11-22-33%22%7D'
@@ -439,7 +439,7 @@ class TplinkBaseRouter(AbstractRouter, TplinkRequest):
             'operation': 'insert' if enable else "remove",
             'key': 'add',
             'old': 'add',
-            'index': 0,
+            'index': index,
             'new': dumps({'name':name,'mac':mac}, separators=(',', ':'))
         }
 
