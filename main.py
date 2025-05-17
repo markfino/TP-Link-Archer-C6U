@@ -1,58 +1,49 @@
 from dotenv import load_dotenv
-import yaml
 import sys
 from typing import List
 
-from models.acl_entry import ACLEntry
-from router import sync_acl_access
+from models.router_cmds import RouterCmds
+from router import execute_action
+from globals import Actions
 
 load_dotenv()
 
 def print_usage():
     usage_doc = (   "Usage: py main.py [OPTION]\n"
                     "\n"
-                    "  Options:\n"
-                    "  --enabe, -e     Enable ACL mac addresses\n"
-                    "  --disable, -d   Disable ACL mac addresses\n"
-                    "  --list, -l      List ACL mac addresses\n"
+                    "  Options:"
                 )
     print(usage_doc)
+    for cmd in cmd_list:
+        cmd_str = f"{cmd.long} ({cmd.short})"
+        print(f"    {cmd_str:20}: {cmd.desc}")
 
+cmd_list: List[RouterCmds] = [
+    RouterCmds("a", "acl_add", Actions.ACL_Add, "Add mac to Security ACL"),
+    RouterCmds("r", "acl_remove", Actions.ACL_Remove, "Remove mac from Security ACL"),
+    RouterCmds("l", "acl_get", Actions.ACL_Get, "Get list of macs in Security ACL"),
+    RouterCmds("s", "wifi_status", Actions.Wifi_Status, "Get Wifi status"),
+    RouterCmds("e", "wifi_enable", Actions.Wifi_Enable, "Enable Wifi"),
+    RouterCmds("d", "wifi_disable", Actions.Wifi_Disable, "Disable Wifi"),
+    RouterCmds("t", "wifi_restart", Actions.Wifi_Restart, "Restart Wifi")
+]
 
 def main():
     args = sys.argv[1:]
-
-    action = ""
-    if '--enable' in args or '-e' in args:
-        action = "enable"
-    elif '--disable' in args or '-d' in args:
-        action = "disable"
-    elif '--list' in args or '-l' in args:
-        action = "list"
-    else:
-        print_usage()
-        exit()
-
-    with open("./config.yaml") as stream:
-        try:
-
-            config = yaml.safe_load(stream)
-
-            # load typed ACL entries
-            acl_entries = config['acl_entries']
-            entries: List[ACLEntry] = []
-            for acl_entry in acl_entries:
-                entries.append(
-                    ACLEntry(acl_entry['name'], acl_entry['mac'])
-                )
-
-            print(f"Syncing ACL mac addresses for action: {action}")
-            sync_acl_access(entries, action)
-            print("Syncing completed successfully.")
+    
+    try:
+        for cmd in cmd_list:
+            if args[0] == cmd.short or args[0] == cmd.long:
+                print(f"Executing action: {cmd.desc}")
+                execute_action(cmd.action)
+                print("Completed successfully.")
+                return
             
-        except yaml.YAMLError as ex:
-            print(ex)
-
+        raise RuntimeError("Action not found.")
+    
+    except Exception as err:
+        print("Error:", err)
+        print_usage()
 
 if __name__ == '__main__':
     main()
