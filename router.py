@@ -118,8 +118,8 @@ def Wifi_Set(router: AbstractRouter, enable: bool):
 def Wifi_Restart(router: AbstractRouter):
     print("Disabling Wifi")
     Wifi_Set(router, False)
-    sleep_time = 10
+    sleep_time = 30
     print(f"Waiting {sleep_time}s")
-    time.sleep(10)
+    time.sleep(sleep_time)
     print(f"Enabling Wifi")
     Wifi_Set(router, True)
