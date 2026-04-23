@@ -7,6 +7,7 @@ import os
 from typing import List
 import yaml
 import time
+import globals
 
 from globals import Actions
 from tplinkrouterc6u.client_abstract import AbstractRouter
@@ -43,7 +44,7 @@ def execute_action(action: Actions) -> bool:
     return result
 
 def _load_ACL_Entries() -> List[ACLEntry]:
-    with open("./config.yaml") as stream:
+    with open(globals.config_file) as stream:
         try:
             config = yaml.safe_load(stream)
 

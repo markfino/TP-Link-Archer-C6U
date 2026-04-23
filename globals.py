@@ -10,3 +10,4 @@ class Actions(Enum):
     Wifi_Disable = 6
     Wifi_Restart = 7
     
+config_file: str = "config.yaml"
