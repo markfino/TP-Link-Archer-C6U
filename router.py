@@ -59,7 +59,7 @@ def _load_ACL_Entries() -> List[ACLEntry]:
             return entries
 
         except yaml.YAMLError as ex:
-            print(ex)
+            print(f"Exception raised {ex}")
 
     return []
 
